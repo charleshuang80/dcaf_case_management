@@ -3,9 +3,33 @@
 [http://colinxfleming.github.io/dcaf_case_management/](http://colinxfleming.github.io/dcaf_case_management/)
 
 ## Project description
-This project is a case management system. 
+This project is a case management system for the [DC Abortion Fund](http://dcabortionfund.org/), an all-volunteer, 501(c)(3) non-profit organization that makes grants to people in DC, Maryland, and Virginia who cannot afford the full cost of abortion care. Currently, case managers are taking about 3,500 calls a year and entering them all into an Excel sheet; this is an effort
 
-We're partnering with the [DC Abortion Fund](http://dcabortionfund.org/), an all-volunteer, 501(c)(3) non-profit organization that makes grants to women and girls in DC, Maryland, and Virginia who cannot afford the full cost of an abortion.
+We're generally looking for people comfortable or interested in the following:
+* Ruby on Rails (a good starter kit: [CodeAcademy's course](http://www.codecademy.com/learn/learn-rails))
+* JQuery / HTML / CSS
+* NoSQL / flat data modeling
+* Nonprofit data issues 
+
+Come say hi! We're friendly!
+
+## Setup
+
+This project 
+
+If you don't currently have Rails installed (or are on Windows), Cloud9 makes things WAY easier: 
+
+https://c9.io/
+
+If you do have a local environment, do the following: 
+
+    # fork this project by going to https://github.com/colinxfleming/dcaf_case_manager.git
+    $ git clone git@github.com:{your_username}/dcaf_case_manager.git
+    $ cd dcaf_case_manager 
+    $ bundle install 
+    $ rake db:migrate
+    $ rails server
+    # navigate your browser to http://localhost:3000
 
 ## Contributing
 * To contribute, visit the main project page and fork from the Master Branch.
@@ -19,6 +43,9 @@ Current wireframe assets are available here:
 * [DCAFtaskflow.pdf](https://drive.google.com/file/d/0B2HIORWZ94L-NVJNN0VEeEdEa28/view?usp=sharing)
 * [DCAFwireframe110915.ai](https://drive.google.com/open?id=0B2HlOoxw2oq1a0hDYmt0ZE55VGs)  
 * [DCAFwireframe110915.pdf](https://drive.google.com/open?id=0B2HlOoxw2oq1UmhxVVJ1SlJOLTA)
+
+
+### Depreciated
 
 ## Working With Jekyll 
 
