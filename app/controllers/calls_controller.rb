@@ -1,6 +1,6 @@
 # Create method for calls, plus triggers for modal behavior
 class CallsController < ApplicationController
-  before_action :find_patient, only: [:create]
+  before_action :find_patient, only: [:create, :destroy]
 
   def create
     @call = @patient.calls.new call_params
@@ -12,6 +12,19 @@ class CallsController < ApplicationController
     else
       flash[:alert] = 'Call failed to save! Please submit the call again.'
       redirect_to root_path
+    end
+  end
+
+  def destroy
+    @call = @patient.calls.find(params[:id])
+    fail # check params
+    if @call.recent_and_created_by_user?(current_user)
+      # @call.destroy
+      # redirect_to OR render the page again?
+      # redirect_to edit_patient_path(@patient)
+    else
+      # flash message: "Call could not be deleted"
+      # render same page
     end
   end
 

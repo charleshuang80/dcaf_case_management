@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboards#index', as: 'dashboard'
     post 'search', to: 'dashboards#search', defaults: { format: :js }
     resources :patients, only: [ :create, :edit, :update ] do
-      resources :calls, only: [ :create ]
+      resources :calls, only: [ :create, :destroy ]
       resources :notes, only: [ :create, :update ]
       resources :pledges, only: [ :create, :update ]
     end

@@ -13,6 +13,7 @@
         <th>Time</th>
         <th>Result</th>
         <th>CM</th>
+        <th><!-- column for remove link --></th>
       </tr>
       <tbody>
         <% patient.recent_calls.each do |call| %>
@@ -21,6 +22,12 @@
             <td><%= call.created_at.display_time %></td>
             <td><%= call.status %></td>
             <td><%= call.created_by.name %></td>
+            <td>
+              <% if call.recent_and_created_by_user?(current_user) %>
+                <%= link_to 'Remove', patient_call_path(@patient, call),
+                    data: {:confirm => 'Are you sure?'}, :method => :delete %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
         <% patient.old_calls.each do |call| %>
@@ -29,6 +36,7 @@
             <td><%= call.created_at.display_time %></td>
             <td><%= call.status %></td>
             <td><%= call.created_by.name %></td>
+            <td><!-- blank: old calls can't be deleted --></td>
           </tr>
         <% end %>
       </tbody>

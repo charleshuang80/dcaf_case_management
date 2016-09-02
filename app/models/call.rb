@@ -34,4 +34,12 @@ class Call
   def reached?
     status == 'Reached patient'
   end
+
+  def created_by_user?(user)
+    created_by == user
+  end
+
+  def recent_and_created_by_user?(user)
+    recent? && created_by_user?(user)
+  end
 end
