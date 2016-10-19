@@ -51,13 +51,20 @@ class Patient
   field :urgent_flag, type: Boolean
   field :special_circumstances, type: Array, default: []
 
+  #Indices
+  index({ primary_phone: 1 }, { unique: true })
+  index({ other_contact_phone: 1 })
+  index({ name: 1 })
+  index({ other_contact: 1 })
+  index({ urgent_flag: 1 })
+
   # Validations
   validates :name,
             :primary_phone,
             :initial_call_date,
             :created_by,
             presence: true
-  validates :primary_phone, format: /\d{10}/, length: { is: 10 }
+  validates :primary_phone, format: /\d{10}/, length: { is: 10 }, uniqueness: true
   validates :other_phone, format: /\d{10}/,
                           length: { is: 10 },
                           allow_blank: true
@@ -85,7 +92,7 @@ class Patient
   end
 
   def self.trim_urgent_patients
-    Patient.all.find_each do |patient|
+    Patient.all do |patient|
       unless patient.still_urgent?
         patient.urgent_flag = false
         patient.save
@@ -130,6 +137,7 @@ class Patient
   def still_urgent?
     # Verify that a pregnancy has not been marked urgent in the past six days
     return false if recent_history_tracks.count == 0
+    return false if pregnancy.pledge_sent || pregnancy.resolved_without_dcaf
     recent_history_tracks.sort.reverse.each do |history|
       return true if history.marked_urgent?
     end

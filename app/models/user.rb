@@ -2,6 +2,7 @@
 # Fields are all devise settings; most of the methods relate to call list mgmt.
 class User
   include Mongoid::Document
+  include Mongoid::Enum
   include Mongoid::Userstamp::User
 
   # Devise modules
@@ -25,7 +26,7 @@ class User
   # Non-devise generated
   field :name, type: String
   field :line, type: String
-  field :role, type: String
+  enum :role, [:cm, :admin]
   field :call_order, type: Array
 
   ## Database authenticatable
@@ -58,8 +59,11 @@ class User
   field :locked_at,       type: Time
 
   # Validations
-  validates :email, :name, presence: true
+  # email presence validated through Devise
+  validates :name, presence: true
   validate :secure_password
+
+  TIME_BEFORE_INACTIVE = 2.weeks
 
   def secure_password
     return true if password.nil?
@@ -109,10 +113,19 @@ class User
   end
 
   def clear_call_list
-    patients.each do |p|
-      # TODO: reexamine this behavior in awhile
-      patients.delete(p) if recently_reached_by_user?(p)
+    if last_sign_in_at.present? &&
+       last_sign_in_at < Time.zone.now - TIME_BEFORE_INACTIVE
+      patients.clear
+    else
+      patients.each do |p|
+        # TODO: reexamine this behavior in awhile
+        patients.delete(p) if recently_reached_by_user?(p)
+      end
     end
+  end
+
+  def admin?
+    role == :admin
   end
 
   private
